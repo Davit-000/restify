@@ -43,6 +43,7 @@
   "bugs": {
     "url": "https://github.com/Davit-000/restify/issues"
   },
+  "homepage": "https://github.com/Davit-000/restify#restify",
   "keywords": ["rest", "javascript"],
   "author": "Davit Hovhannisyan",
   "license": "ISC"
