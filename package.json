@@ -1,15 +1,16 @@
 {
   "name": "restify",
   "version": "1.0.0",
-  "description": "Rest Request modeling.",
+  "description": "rest API requests",
   "main": "index.js",
   "scripts": {
     "dev": "npm run development",
     "development": "webpack-dev-server --info=false --progress --hide-modules --open",
-    "prod" : "npm run production",
+    "prod": "npm run production",
     "production": "webpack --define process.env.NODE_ENV=production",
     "watch": "npm run development -- --watch",
-    "build": "webpack -p"
+    "build": "webpack -p",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
@@ -38,13 +39,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Davit-000/restify.git"
+    "url": "git+https://github.com/Davit-000/restify.git"
   },
+  "keywords": [
+    "javascript",
+    "rest",
+    "api"
+  ],
+  "author": "David Hovhannisyan",
+  "license": "ISC",
   "bugs": {
     "url": "https://github.com/Davit-000/restify/issues"
   },
-  "homepage": "https://github.com/Davit-000/restify#restify",
-  "keywords": ["rest", "javascript"],
-  "author": "Davit Hovhannisyan",
-  "license": "ISC"
+  "homepage": "https://github.com/Davit-000/restify#readme"
 }
