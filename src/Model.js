@@ -13,7 +13,7 @@ export class Model extends Form {
 
   formdata = false;
 
-  origin = window.location.origin;
+  origin = typeof window !== "undefined" ? window.location.origin : '';
 
   /**
    * Model Constructor

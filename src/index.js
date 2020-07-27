@@ -1,3 +1,3 @@
-import { Model } from "./Model";
+const { Model } = require("./Model");
 
-module.exports = Model
+module.exports = Model;

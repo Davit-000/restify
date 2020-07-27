@@ -9,7 +9,11 @@ module.exports = {
   entry: "./src/index.js",
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "restify.js"
+    filename: "restify.js",
+    library: "Restify",
+    libraryTarget: "umd",
+    globalObject: "this",
+    umdNamedDefine: true,
   },
   module: {
     rules: [
