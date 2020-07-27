@@ -1,23 +1,23 @@
 # Restify
 
-MAke Rest API request's
+Make Rest API request's
 
-#installation
+# installation
 
-`npm install restify` 
+`npm install vue-restify` 
 
-#Usage
+# Usage
 
-##basic example; 
+## basic example 
 
 ```
-    import restify from "restify"
+    import Restify from "vue-restify"
     
     class Maker extends Model {
       static fields = {id: null, name: ''};
      
       constructor(fields = {}) {
-        super(Object.assign(Maker.fields);
+        super(Object.assign(Maker.fields));
     
         this.models = fields.models || [];
       }
