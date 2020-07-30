@@ -13,6 +13,8 @@ export class Model extends Form {
 
   formdata = false;
 
+  backend = 'laravel';
+
   origin = typeof window !== "undefined" ? window.location.origin : '';
 
   /**
@@ -51,6 +53,10 @@ export class Model extends Form {
    */
   get uri() {
     return pluralize.plural(this.constructor.name.toLowerCase());
+  }
+
+  get backendIsLaravel() {
+    return this.backend === 'laravel';
   }
 
   /**
@@ -119,8 +125,14 @@ export class Model extends Form {
    * @return {RequestBuilder}
    */
   update() {
-    this.#builder.setMethod('patch');
-    this.#builder.setData(this.fields.all);
+    if (this.backendIsLaravel) {
+      this.#builder.setMethod('post');
+      this.#builder.setData(Object.assign({}, this.fields.all, {_method: 'patch'}));
+    } else {
+      this.#builder.setMethod('patch');
+      this.#builder.setData(this.fields.all);
+    }
+
     this.#builder.setParam(this.fields.get('id'));
 
     return this.#builder;

@@ -12306,7 +12306,7 @@ var Fields = /*#__PURE__*/function () {
   }, {
     key: "set",
     value: function set(fields) {
-      Object.assign(this.fields, Object(lodash__WEBPACK_IMPORTED_MODULE_2__["pick"])(fields, Object.keys(this.fields)));
+      Object.assign(this.fields, fields);
     }
   }, {
     key: "all",
@@ -12481,6 +12481,8 @@ var Model = /*#__PURE__*/function (_Form) {
 
     _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this), "formdata", false);
 
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this), "backend", 'laravel');
+
     _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this), "origin", typeof window !== "undefined" ? window.location.origin : '');
 
     _babel_runtime_helpers_classPrivateFieldSet__WEBPACK_IMPORTED_MODULE_8___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2___default()(_this), _state, Object(lodash__WEBPACK_IMPORTED_MODULE_10__["cloneDeep"])(fields));
@@ -12596,9 +12598,17 @@ var Model = /*#__PURE__*/function (_Form) {
   }, {
     key: "update",
     value: function update() {
-      _babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_7___default()(this, _builder).setMethod('patch');
+      if (this.backendIsLaravel) {
+        _babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_7___default()(this, _builder).setMethod('post');
 
-      _babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_7___default()(this, _builder).setData(this.fields.all);
+        _babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_7___default()(this, _builder).setData(Object.assign({}, this.fields.all, {
+          _method: 'patch'
+        }));
+      } else {
+        _babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_7___default()(this, _builder).setMethod('patch');
+
+        _babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_7___default()(this, _builder).setData(this.fields.all);
+      }
 
       _babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_7___default()(this, _builder).setParam(this.fields.get('id'));
 
@@ -12646,6 +12656,11 @@ var Model = /*#__PURE__*/function (_Form) {
     key: "uri",
     get: function get() {
       return pluralize__WEBPACK_IMPORTED_MODULE_9___default.a.plural(this.constructor.name.toLowerCase());
+    }
+  }, {
+    key: "backendIsLaravel",
+    get: function get() {
+      return this.backend === 'laravel';
     }
   }], [{
     key: "all",
