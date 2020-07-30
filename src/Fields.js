@@ -54,6 +54,6 @@ export class Fields {
    * @param {Object} fields
    */
   set(fields) {
-    Object.assign(this.fields, fields);
+    Object.assign(this.fields, pick(fields, Object.keys(this.fields)));
   }
 }
