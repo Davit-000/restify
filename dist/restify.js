@@ -12306,7 +12306,7 @@ var Fields = /*#__PURE__*/function () {
   }, {
     key: "set",
     value: function set(fields) {
-      this.fields = Object.assign({}, this.fields, fields);
+      Object.assign(this.fields, fields);
     }
   }, {
     key: "all",
@@ -12516,8 +12516,16 @@ var Model = /*#__PURE__*/function (_Form) {
 
 
   _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default()(Model, [{
-    key: "on",
+    key: "set",
 
+    /**
+     * Setting fields
+     *
+     * @param {Object} fields
+     */
+    value: function set(fields) {
+      this.fields.set(fields);
+    }
     /**
      * Register event for model
      *
@@ -12525,6 +12533,9 @@ var Model = /*#__PURE__*/function (_Form) {
      * @param {Function} callback
      * @return void
      */
+
+  }, {
+    key: "on",
     value: function on(eventName, callback) {
       var handlers = _babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_7___default()(this, _events)[eventName] || [];
       handlers.push(callback);
