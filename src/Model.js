@@ -102,36 +102,13 @@ export class Model extends Form {
   }
 
   /**
-   * Only specified fields to send
-   *
-   * @param {string[]} fields
-   * @return {Model}
-   */
-  only(fields) {
-    this.#builder.setData(this.fields.only(fields));
-
-    return this;
-  }
-
-  /**
-   * Except specified fields to send
-   *
-   * @param {string[]} fields
-   * @return {Model}
-   */
-  except(fields) {
-    this.#builder.setData(this.fields.except(fields));
-
-    return this;
-  }
-
-  /**
    * Set's request method
    *
    * @return {RequestBuilder}
    */
   create() {
     this.#builder.setMethod('post');
+    this.#builder.setData(this.fields.all)
 
     return this.#builder;
   }
@@ -143,6 +120,7 @@ export class Model extends Form {
    */
   update() {
     this.#builder.setMethod('patch');
+    this.#builder.setData(this.fields.all);
     this.#builder.setParam(this.fields.get('id'));
 
     return this.#builder;

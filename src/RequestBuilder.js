@@ -1,3 +1,4 @@
+import {omit, pick} from "lodash";
 import {serialize} from "object-to-formdata";
 import axios, {AxiosResponse, AxiosRequestConfig} from "axios";
 
@@ -84,6 +85,30 @@ export class RequestBuilder {
    */
   setData(data) {
     this.#request.data = _.cloneDeep(data);
+  }
+
+  /**
+   * Only specified fields to send
+   *
+   * @param {string[]} fields
+   * @return {RequestBuilder}
+   */
+  only(fields) {
+    this.setData(pick(this.#request.data,fields));
+
+    return this;
+  }
+
+  /**
+   * Except specified fields to send
+   *
+   * @param {string[]} fields
+   * @return {RequestBuilder}
+   */
+  except(fields) {
+    this.setData(omit(this.#request.data,fields));
+
+    return this;
   }
 
   /**

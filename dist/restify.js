@@ -12573,34 +12573,6 @@ var Model = /*#__PURE__*/function (_Form) {
       this.trigger('reset');
     }
     /**
-     * Only specified fields to send
-     *
-     * @param {string[]} fields
-     * @return {Model}
-     */
-
-  }, {
-    key: "only",
-    value: function only(fields) {
-      _babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_7___default()(this, _builder).setData(this.fields.only(fields));
-
-      return this;
-    }
-    /**
-     * Except specified fields to send
-     *
-     * @param {string[]} fields
-     * @return {Model}
-     */
-
-  }, {
-    key: "except",
-    value: function except(fields) {
-      _babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_7___default()(this, _builder).setData(this.fields.except(fields));
-
-      return this;
-    }
-    /**
      * Set's request method
      *
      * @return {RequestBuilder}
@@ -12610,6 +12582,8 @@ var Model = /*#__PURE__*/function (_Form) {
     key: "create",
     value: function create() {
       _babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_7___default()(this, _builder).setMethod('post');
+
+      _babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_7___default()(this, _builder).setData(this.fields.all);
 
       return _babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_7___default()(this, _builder);
     }
@@ -12623,6 +12597,8 @@ var Model = /*#__PURE__*/function (_Form) {
     key: "update",
     value: function update() {
       _babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_7___default()(this, _builder).setMethod('patch');
+
+      _babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_7___default()(this, _builder).setData(this.fields.all);
 
       _babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_7___default()(this, _builder).setParam(this.fields.get('id'));
 
@@ -12736,16 +12712,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _babel_runtime_helpers_classPrivateFieldSet__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/classPrivateFieldSet */ "./node_modules/@babel/runtime/helpers/classPrivateFieldSet.js");
 /* harmony import */ var _babel_runtime_helpers_classPrivateFieldSet__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classPrivateFieldSet__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var object_to_formdata__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! object-to-formdata */ "./node_modules/object-to-formdata/dist/index.module.js");
-/* harmony import */ var object_to_formdata__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(object_to_formdata__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var object_to_formdata__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! object-to-formdata */ "./node_modules/object-to-formdata/dist/index.module.js");
+/* harmony import */ var object_to_formdata__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(object_to_formdata__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_6__);
 
 
 
 
 
 function _classPrivateMethodGet(receiver, privateSet, fn) { if (!privateSet.has(receiver)) { throw new TypeError("attempted to get private field on non-instance"); } return fn; }
+
 
 
 
@@ -12831,6 +12810,32 @@ var RequestBuilder = /*#__PURE__*/function () {
       _babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_2___default()(this, _request).data = _.cloneDeep(data);
     }
     /**
+     * Only specified fields to send
+     *
+     * @param {string[]} fields
+     * @return {RequestBuilder}
+     */
+
+  }, {
+    key: "only",
+    value: function only(fields) {
+      this.setData(Object(lodash__WEBPACK_IMPORTED_MODULE_4__["pick"])(_babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_2___default()(this, _request).data, fields));
+      return this;
+    }
+    /**
+     * Except specified fields to send
+     *
+     * @param {string[]} fields
+     * @return {RequestBuilder}
+     */
+
+  }, {
+    key: "except",
+    value: function except(fields) {
+      this.setData(Object(lodash__WEBPACK_IMPORTED_MODULE_4__["omit"])(_babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_2___default()(this, _request).data, fields));
+      return this;
+    }
+    /**
      * Set's prefix to request uri
      *
      * @param {string} prefix
@@ -12899,7 +12904,7 @@ var RequestBuilder = /*#__PURE__*/function () {
         _classPrivateMethodGet(this, _transformToFormdata, _transformToFormdata2).call(this);
       }
 
-      return axios__WEBPACK_IMPORTED_MODULE_5___default.a.request(_babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_2___default()(this, _request)).then(function (res) {
+      return axios__WEBPACK_IMPORTED_MODULE_6___default.a.request(_babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_2___default()(this, _request)).then(function (res) {
         _babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_2___default()(_this, _model).trigger('sent');
 
         return res;
@@ -12920,7 +12925,7 @@ var RequestBuilder = /*#__PURE__*/function () {
 }();
 
 var _transformToFormdata2 = function _transformToFormdata2() {
-  _babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_2___default()(this, _request).data = Object(object_to_formdata__WEBPACK_IMPORTED_MODULE_4__["serialize"])(_babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_2___default()(this, _request).data, {
+  _babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_2___default()(this, _request).data = Object(object_to_formdata__WEBPACK_IMPORTED_MODULE_5__["serialize"])(_babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_2___default()(this, _request).data, {
     /**
      * include array indices in FormData keys
      * defaults to false
