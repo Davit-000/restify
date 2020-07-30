@@ -1,6 +1,6 @@
 {
   "name": "vue-restify",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "rest API requests",
   "main": "index.js",
   "scripts": {
