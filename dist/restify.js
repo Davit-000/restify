@@ -12306,7 +12306,7 @@ var Fields = /*#__PURE__*/function () {
   }, {
     key: "set",
     value: function set(fields) {
-      Object.assign(this.fields, fields);
+      Object.assign(this.fields, Object(lodash__WEBPACK_IMPORTED_MODULE_2__["pick"])(fields, Object.keys(this.fields)));
     }
   }, {
     key: "all",
