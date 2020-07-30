@@ -54,6 +54,15 @@ export class Model extends Form {
   }
 
   /**
+   * Setting fields
+   *
+   * @param {Object} fields
+   */
+  set(fields) {
+    this.fields.set(fields);
+  }
+
+  /**
    * Register event for model
    *
    * @param {String} eventName

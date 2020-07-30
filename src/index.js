@@ -1,3 +1,3 @@
 const { Model } = require("./Model");
 
-module.exports = Model;
+module.exports = Model
