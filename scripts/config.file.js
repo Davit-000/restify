@@ -3,7 +3,7 @@ const path = require('path');
 
 // console.log(global.process);
 //
-console.log(path.resolve(__dirname, '../../'));
+console.log(path.resolve(__dirname, '../../../'));
 
 // console.log(path.dirname(require.main.filename));
 
