@@ -2,6 +2,7 @@ import pluralize from "pluralize"
 import { cloneDeep } from "lodash";
 import { Form } from "./Form";
 import { Fields } from "./Fields";
+import { Config } from "./Config";
 import { RequestBuilder } from "./RequestBuilder";
 
 export class Model extends Form {
@@ -13,9 +14,9 @@ export class Model extends Form {
 
   formdata = false;
 
-  backend = 'laravel';
+  backend = Config.get('backend', 'laravel');
 
-  origin = typeof window !== "undefined" ? window.location.origin : '';
+  origin = Config.get('origin');
 
   /**
    * Model Constructor
