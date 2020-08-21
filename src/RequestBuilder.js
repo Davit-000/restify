@@ -1,4 +1,4 @@
-import {omit, pick} from "lodash";
+import {omit, pick, cloneDeep} from "lodash";
 import {serialize} from "object-to-formdata";
 import axios, {AxiosResponse, AxiosRequestConfig} from "axios";
 
@@ -84,7 +84,7 @@ export class RequestBuilder {
    * @param {Object} data
    */
   setData(data) {
-    this.#request.data = _.cloneDeep(data);
+    this.#request.data = cloneDeep(data);
   }
 
   /**

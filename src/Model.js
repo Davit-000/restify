@@ -15,8 +15,6 @@ export class Model extends Form {
 
   formdata = false;
 
-  backend = Config.get('backend', 'laravel');
-
   origin = Config.get('origin');
 
   static $config = config;
@@ -34,7 +32,7 @@ export class Model extends Form {
     this.fields = new Fields(fields);
     this.#builder = new RequestBuilder(this,{
       url: this.uri,
-      baseURL: this.origin
+      baseURL: Config.get('origin', window.location.origin)
     });
 
     Object.keys(this.fields.all).forEach(key => {
@@ -59,8 +57,13 @@ export class Model extends Form {
     return pluralize.plural(this.constructor.name.toLowerCase());
   }
 
+  /**
+   * Check if backend option is laravel
+   *
+   * @return {boolean}
+   */
   get backendIsLaravel() {
-    return this.backend === 'laravel';
+    return Config.get('backend', 'laravel') === 'laravel';
   }
 
   /**
@@ -155,7 +158,7 @@ export class Model extends Form {
   }
 
   /**
-   * Restore's soft deleted resource
+   * Restores soft deleted resource
    *
    * @returns {RequestBuilder}
    */
@@ -195,6 +198,12 @@ export class Model extends Form {
     return model.#builder;
   }
 
+  /**
+   * Sends request to delete multiple resources
+   *
+   * @param {number[]} ids
+   * @return {RequestBuilder}
+   */
   static destroyMany(ids) {
     const model = new this();
 

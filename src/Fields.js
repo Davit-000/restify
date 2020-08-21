@@ -1,4 +1,4 @@
-import {pick, omit} from "lodash";
+import { pick, omit } from "lodash";
 
 export class Fields {
   /**
