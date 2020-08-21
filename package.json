@@ -10,8 +10,7 @@
     "production": "webpack --define process.env.NODE_ENV=production --env.NODE_ENV=production",
     "watch": "npm run development -- --watch",
     "build": "webpack -p",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "node ./scripts/config.file.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
@@ -28,10 +27,10 @@
     "clean-webpack-plugin": "^3.0.0",
     "html-webpack-plugin": "^4.3.0",
     "terser-webpack-plugin": "^4.1.0",
-    "webpack": "^4.44.0",
+    "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0",
-    "webpack-merge": "^4.2.2"
+    "webpack-merge": "^5.1.2"
   },
   "dependencies": {
     "axios": "^0.19.2",

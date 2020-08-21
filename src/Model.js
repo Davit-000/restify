@@ -4,6 +4,7 @@ import { Form } from "./Form";
 import { Fields } from "./Fields";
 import { Config } from "./Config";
 import { RequestBuilder } from "./RequestBuilder";
+import config from "../restify.config";
 
 export class Model extends Form {
   #builder;
@@ -17,6 +18,8 @@ export class Model extends Form {
   backend = Config.get('backend', 'laravel');
 
   origin = Config.get('origin');
+
+  static $config = config;
 
   /**
    * Model Constructor

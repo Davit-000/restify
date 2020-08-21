@@ -1,3 +1,8 @@
 const { Model } = require("./Model");
+const { Config } = require("./Config");
 
-module.exports = Model
+
+module.exports = {
+  Restify: Model,
+  RestifyConfig: Config
+};
