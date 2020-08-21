@@ -3,7 +3,7 @@
   "version": "1.0.18",
   "description": "rest API requests",
   "main": "index.js",
-  "types": "./types/index.d.ts",
+  "types": "types/index.d.ts",
   "scripts": {
     "dev": "npm run development",
     "development": "webpack-dev-server --env.NODE_ENV=development --info=false --progress --hide-modules --open",
