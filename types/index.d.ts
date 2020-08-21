@@ -1,11 +1,22 @@
 /// <reference types="typescript" />
 
-declare module 'vue-restify' {
-  import { Model } from "./model";
-  import { Config } from "./config";
+import {Model} from "./model";
+import {Config} from "./config";
 
-  export = {
-    Restify: Model,
-    RestifyConfig: Config,
-  };
+// declare module 'vue-restify' {
+//   import { Model } from "./model";
+//   import { Config } from "./config";
+//
+//   export = {
+//     Restify: Model,
+//     RestifyConfig: Config,
+//   };
+// }
+
+declare const Restify: Model;
+declare const RestifyConfig: Config;
+
+export {
+  Restify,
+  RestifyConfig
 }
