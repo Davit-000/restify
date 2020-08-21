@@ -39,12 +39,19 @@
     "object-to-formdata": "^4.1.0",
     "pluralize": "^8.0.0"
   },
+  "files": [
+    "src",
+    "dist",
+    "types",
+    "index.js"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Davit-000/restify.git"
   },
   "keywords": [
     "javascript",
+    "vue.js",
     "rest",
     "api"
   ],
@@ -53,5 +60,11 @@
   "bugs": {
     "url": "https://github.com/Davit-000/restify/issues"
   },
-  "homepage": "https://github.com/Davit-000/restify#readme"
+  "homepage": "https://github.com/Davit-000/restify#readme",
+  "bundlesize": [
+    {
+      "path": "./dist/restify.js",
+      "threshold": "119kB"
+    }
+  ]
 }
