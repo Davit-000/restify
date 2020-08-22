@@ -1,4 +1,5 @@
 import { Form } from "./form";
+import { Flags } from "./flags";
 import { RequestBuilder } from "./request.builder";
 
 export interface ModelConfig {
@@ -6,16 +7,35 @@ export interface ModelConfig {
   backend: string
 }
 
+export interface ModelFlags {
+  changed: {
+    [key: string]: {
+      newValue: any,
+      oldValue: any
+    }
+  },
+  dirty: {
+    [key: string]: {
+      newValue: any,
+      oldValue: any
+    }
+  }
+}
+
 export declare class Model extends Form {
-  public fields: {} = {};
+  public path: string = '';
+
+  public flags: Flags;
+
+  public fields: object = {};
 
   public formdata: boolean = false;
 
-  private state: {} = {};
+  private state: object = {};
 
   private builder: RequestBuilder;
 
-  private events: {} = {};
+  private events: object = {};
 
   public static $config: ModelConfig;
 
