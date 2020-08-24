@@ -71,7 +71,8 @@ export class Model extends Form {
     this.fields = new Fields(fields);
     this.#builder = new RequestBuilder(this,{
       url: this.uri,
-      baseURL: Config.get('origin', window.location.origin)
+      baseURL: Config.get('origin', window.location.origin),
+      headers: Config.get('headers', {})
     });
 
     Object.keys(this.fields.all).forEach(key => {

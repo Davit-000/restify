@@ -142,6 +142,7 @@ export class RequestBuilder {
    */
   headers(headers) {
     Object.assign(this.#request.headers, headers);
+
     return this;
   }
 
@@ -163,12 +164,14 @@ export class RequestBuilder {
    */
   send() {
     this.#model.trigger('sending');
+    this.#model.loading = 'primary';
 
     if (this.#model.formdata) {
       this.#transformToFormdata();
     }
 
-    return axios.request(this.#request)
+    return axios
+      .request(this.#request)
       .then(res => {
         this.#model.trigger('sent');
 
@@ -178,6 +181,7 @@ export class RequestBuilder {
         this.#model.trigger('failed');
 
         return err
-      });
+      })
+      .finally(() => this.#model.loading = false);
   }
 }
