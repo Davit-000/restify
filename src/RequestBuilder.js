@@ -180,7 +180,10 @@ export class RequestBuilder {
       .catch(err => {
         this.#model.trigger('failed');
 
-        return err
+        if (err.response && err.response.data.hasOwnProperty('errors'))
+          this.#model.setErrors(err.response.data.errors);
+
+        return err;
       })
       .finally(() => this.#model.loading = false);
   }

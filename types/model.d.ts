@@ -59,6 +59,8 @@ export declare class Model extends Form {
 
   destroy(): RequestBuilder;
 
+  static all(): RequestBuilder;
+
   static find(id: number|string = null): RequestBuilder;
 
   static destroyMany(ids: number[]|string[]): RequestBuilder;
