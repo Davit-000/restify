@@ -1,22 +1,60 @@
 import pluralize from "pluralize"
 import { cloneDeep } from "lodash";
 import { Form } from "./Form";
+import { Flags } from "./Flags";
 import { Fields } from "./Fields";
 import { Config } from "./Config";
 import { RequestBuilder } from "./RequestBuilder";
 import config from "../restify.config";
 
 export class Model extends Form {
+  /**
+   * @type {RequestBuilder}
+   */
   #builder;
+
+  /**
+   * @type {Object}
+   */
   #state = {};
+
+  /**
+   * @type {string}
+   */
+  path = '';
+
+  /**
+   * @type {Object}
+   */
   #events = {};
 
+  /**
+   * @type {Object}
+   */
   fields = {};
 
+  /**
+   * Model fields flags
+   *
+   * @type {Flags}
+   */
+  #flags;
+
+  /**
+   * Converts data to formdata
+   *
+   * @type {boolean}
+   */
   formdata = false;
 
+  /**
+   * @type {string}
+   */
   origin = Config.get('origin');
 
+  /**
+   * @type {{origin: string|string, backend: string}}
+   */
   static $config = config;
 
   /**
@@ -29,6 +67,7 @@ export class Model extends Form {
     super(errors);
 
     this.#state = cloneDeep(fields);
+    this.#flags = new Flags();
     this.fields = new Fields(fields);
     this.#builder = new RequestBuilder(this,{
       url: this.uri,
@@ -42,6 +81,15 @@ export class Model extends Form {
         },
         set(v) {
           this.fields.set({[key]: v});
+
+          if (this.#state[key] !== this.fields.get(key)) {
+            this.#flags.setChanged(key, v);
+            this.#flags.unsetDirty(key);
+          } else if (this.#state[key] !== this.fields.get(key) && this.#flags.isChanged(key)) {
+            this.#flags.unsetChanged(key);
+            this.#flags.setDirty(key, v);
+          }
+
           this.trigger('change', {key, v});
         }
       });
@@ -54,7 +102,7 @@ export class Model extends Form {
    * @return {string}
    */
   get uri() {
-    return pluralize.plural(this.constructor.name.toLowerCase());
+    return this.path || pluralize.plural(this.constructor.name.toLowerCase());
   }
 
   /**
@@ -110,6 +158,7 @@ export class Model extends Form {
    */
   reset() {
     this.errors = {};
+    this.#flags.reset();
     this.fields.set(this.#state);
     this.trigger('reset');
   }

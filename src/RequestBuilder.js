@@ -1,6 +1,6 @@
-import {omit, pick, cloneDeep} from "lodash";
-import {serialize} from "object-to-formdata";
-import axios, {AxiosResponse, AxiosRequestConfig} from "axios";
+import { omit, pick, cloneDeep } from "lodash";
+import { serialize } from "object-to-formdata";
+import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
 
 export class RequestBuilder {
   #model;
