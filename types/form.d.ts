@@ -3,9 +3,11 @@ interface FormErrors {
 }
 
 export declare class Form {
-  mode: string = Form.MODE_CREATE;
+  mode?: number = null;
 
-  rules: {} = {};
+  loading: boolean|string = false;
+
+  rules: object = {};
 
   errors: FormErrors = {};
 

@@ -1,8 +1,13 @@
 export class Form {
   /**
-   * @type {number}
+   * @type {number|null}
    */
-  mode;
+  mode = null;
+
+  /**
+   * @type {boolean|string}
+   */
+  loading = false;
 
   /**
    * @type {Object}
@@ -83,6 +88,10 @@ export class Form {
    */
   setModeDelete() {
     this.mode = Form.MODE_DELETE;
+  }
+
+  unsetMode() {
+    this.mode = null;
   }
 
   /**
