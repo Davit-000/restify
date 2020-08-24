@@ -90,6 +90,9 @@ export class Form {
     this.mode = Form.MODE_DELETE;
   }
 
+  /**
+   * unSet's from mode
+   */
   unsetMode() {
     this.mode = null;
   }
