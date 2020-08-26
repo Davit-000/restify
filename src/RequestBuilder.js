@@ -29,8 +29,11 @@ export class RequestBuilder {
     return this.#model.origin;
   }
 
+  /**
+   * Transforms request data object to formdata object
+   */
   #transformToFormdata() {
-    this.#request.data = serialize(this.#request.data, {
+    this.#request.data = serialize(Object.assign(this.#request.data, {file: this.#model.file}), {
       /**
        * include array indices in FormData keys
        * defaults to false

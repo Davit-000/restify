@@ -200,7 +200,7 @@ export class Model extends Form {
    */
   create() {
     this.#builder.setMethod('post');
-    this.#builder.setData(this.fields.all)
+    this.#builder.setData(this.fields.all);
 
     return this.#builder;
   }
