@@ -1,4 +1,4 @@
-import { omit, pick, cloneDeep } from "lodash";
+import { trim, omit, pick, cloneDeep } from "lodash";
 import { serialize } from "object-to-formdata";
 import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
 
@@ -121,7 +121,7 @@ export class RequestBuilder {
    * @return {RequestBuilder}
    */
   prefix(prefix) {
-    this.#request.url = `${prefix}/${this.#request.url}`;
+    this.#request.url = `${trim(prefix, '/')}/${this.#request.url}`;
 
     return this;
   }
@@ -133,7 +133,8 @@ export class RequestBuilder {
    * @return {RequestBuilder}
    */
   suffix(suffix) {
-    this.#request.url = `${this.#request.url}/${suffix}`;
+    this.#request.url = `${this.#request.url}/${trim(suffix, '/')}`;
+
     return this;
   }
 
