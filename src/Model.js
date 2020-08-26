@@ -48,6 +48,13 @@ export class Model extends Form {
   formdata = false;
 
   /**
+   * File reader state
+   *
+   * @type {boolean}
+   */
+  reading = false;
+
+  /**
    * @type {string}
    */
   origin = Config.get('origin');
@@ -94,6 +101,28 @@ export class Model extends Form {
           this.trigger('change', {key, v});
         }
       });
+    });
+
+    Object.defineProperty(this, 'file', {
+      get() {
+        return this.file;
+      },
+      set(v) {
+        this.file = v;
+
+        let reader = new FileReader();
+
+        if (v instanceof File || v instanceof FileList) {
+          this.trigger('reading');
+          this.reading = true;
+
+          reader.readAsDataURL(v);
+          reader.onload = e => {
+            this.trigger('readied', e.target.result);
+            this.reading = false;
+          }
+        }
+      }
     });
   }
 

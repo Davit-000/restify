@@ -23,6 +23,8 @@ export interface ModelFlags {
 }
 
 export declare class Model extends Form {
+  public file?: File = null;
+
   public path: string = '';
 
   public flags: Flags;
@@ -30,6 +32,8 @@ export declare class Model extends Form {
   public fields: object = {};
 
   public formdata: boolean = false;
+
+  public reading: boolean = false;
 
   private state: object = {};
 
