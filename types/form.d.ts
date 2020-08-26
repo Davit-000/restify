@@ -1,10 +1,12 @@
-interface FormErrors {
+export interface FormErrors {
   [key: string]: string[]
 }
 
-interface FormRules {
+export interface FormRules {
   [key: string]: object
 }
+
+export type Mode = Form.MODE_CREATE | Form.MODE_UPDATE | Form.MODE_DELETE;
 
 export declare class Form {
   mode?: number = null;
@@ -36,6 +38,8 @@ export declare class Form {
   setModeUpdate(): void;
 
   setModeDelete(): void;
+
+  setMode(mode: Mode): void;
 
   get isModeCreate(): boolean;
 

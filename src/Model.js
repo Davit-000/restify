@@ -18,11 +18,6 @@ export class Model extends Form {
    */
   #state = {};
 
-  /**
-   * @type {string}
-   */
-  path = '';
-
   #file = null;
 
   /**

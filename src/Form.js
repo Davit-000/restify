@@ -87,7 +87,7 @@ export class Form {
    * @return void
    */
   setModeCreate() {
-    this.mode = Form.MODE_CREATE;
+    this.setMode(Form.MODE_CREATE);
   }
 
   /**
@@ -96,7 +96,7 @@ export class Form {
    * @return void
    */
   setModeUpdate() {
-    this.mode = Form.MODE_UPDATE;
+    this.setMode(Form.MODE_UPDATE);
   }
 
   /**
@@ -105,7 +105,7 @@ export class Form {
    * @return void
    */
   setModeDelete() {
-    this.mode = Form.MODE_DELETE;
+    this.setMode(Form.MODE_DELETE);
   }
 
   /**
@@ -113,6 +113,15 @@ export class Form {
    */
   unsetMode() {
     this.mode = null;
+  }
+
+  /**
+   * Sets the form mode
+   *
+   * @param {number} mode
+   */
+  setMode(mode) {
+    this.mode = mode;
   }
 
   /**
