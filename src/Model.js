@@ -80,7 +80,7 @@ export class Model extends Form {
     this.#flags = new Flags();
     this.fields = new Fields(fields);
     this.#builder = new RequestBuilder(this,{
-      url: trim(request.prefix, '/') + trim(request.uri || this.uri, '/') + trim(request.suffix, '/'),
+      url: `${trim(request.prefix, '/')}/${trim(request.uri || this.uri, '/')}/${trim(request.suffix, '/')}`,
       baseURL: Config.get('origin', window.location.origin),
       headers: Config.get('headers', {})
     });
