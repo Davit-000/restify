@@ -75,6 +75,8 @@ export class Model extends Form {
       + (request.uri ? `/${trim(request.uri, '/')}` : `/${trim(this.uri, '/')}`)
       + (request.suffix ? `/${trim(request.suffix, '/')}` : '');
 
+    console.log(url);
+
     this.#state = cloneDeep(fields);
     this.#flags = new Flags();
     this.fields = new Fields(fields);
