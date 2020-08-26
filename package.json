@@ -34,7 +34,7 @@
     "webpack-merge": "^5.1.2"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.20.0",
     "lodash": "^4.17.20",
     "object-to-formdata": "^4.1.0",
     "pluralize": "^8.0.0"
