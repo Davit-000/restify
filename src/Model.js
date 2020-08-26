@@ -23,6 +23,8 @@ export class Model extends Form {
    */
   path = '';
 
+  #file = null;
+
   /**
    * @type {Object}
    */
@@ -102,28 +104,27 @@ export class Model extends Form {
         }
       });
     });
+  }
 
-    Object.defineProperty(this, 'file', {
-      get() {
-        return this.file;
-      },
-      set(v) {
-        this.file = v;
+  get file() {
+    return this.#file;
+  }
 
-        let reader = new FileReader();
+  set file(v) {
+    this.#file = v;
 
-        if (v instanceof File || v instanceof FileList) {
-          this.trigger('reading');
-          this.reading = true;
+    let reader = new FileReader();
 
-          reader.readAsDataURL(v);
-          reader.onload = e => {
-            this.trigger('readied', e.target.result);
-            this.reading = false;
-          }
-        }
+    if (v instanceof File || v instanceof FileList) {
+      this.trigger('reading');
+      this.reading = true;
+
+      reader.readAsDataURL(v);
+      reader.onload = e => {
+        this.trigger('readied', e.target.result);
+        this.reading = false;
       }
-    });
+    }
   }
 
   /**
