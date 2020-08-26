@@ -22,9 +22,19 @@ export interface ModelFlags {
   }
 }
 
-export declare class Model extends Form {
-  public file?: File = null;
+export interface ModelRequestOptions {
+  uri?: string
+  prefix?: string,
+  suffix?: string,
+}
 
+export interface ModelOptions {
+  fields: object,
+  errors?: object
+  request?: ModelRequestOptions
+}
+
+export declare class Model extends Form {
   public path: string = '';
 
   public flags: Flags;
@@ -43,11 +53,15 @@ export declare class Model extends Form {
 
   public static $config: ModelConfig;
 
-  constructor(fields: {} = {}, errors: {} = {});
+  constructor(options: ModelOptions);
 
   get uri(): string;
 
   get backendIsLaravel(): boolean;
+
+  get file(): File|null;
+
+  set file(): void;
 
   set(fields: {}): void
 

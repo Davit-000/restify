@@ -1,5 +1,5 @@
 import pluralize from "pluralize"
-import { cloneDeep } from "lodash";
+import { trim, cloneDeep } from "lodash";
 import { Form } from "./Form";
 import { Flags } from "./Flags";
 import { Fields } from "./Fields";
@@ -69,17 +69,18 @@ export class Model extends Form {
   /**
    * Model Constructor
    *
-   * @param {Object} fields
-   * @param errors
+   * @param {{fields: Object, errors?: Object, request?: Object}} options
    */
-  constructor(fields = {}, errors = {}) {
+  constructor(options) {
+    const { fields, errors = {}, request = {} } = options;
+
     super(errors);
 
     this.#state = cloneDeep(fields);
     this.#flags = new Flags();
     this.fields = new Fields(fields);
     this.#builder = new RequestBuilder(this,{
-      url: this.uri,
+      url: trim(request.prefix, '/') + trim(request.uri || this.uri, '/') + trim(request.suffix, '/'),
       baseURL: Config.get('origin', window.location.origin),
       headers: Config.get('headers', {})
     });
@@ -133,7 +134,7 @@ export class Model extends Form {
    * @return {string}
    */
   get uri() {
-    return this.path || pluralize.plural(this.constructor.name.toLowerCase());
+    return pluralize.plural(this.constructor.name.toLowerCase());
   }
 
   /**
