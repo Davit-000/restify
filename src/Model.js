@@ -76,11 +76,15 @@ export class Model extends Form {
 
     super(errors);
 
+    const url = trim(request.prefix, '/')
+      + request.uri || this.uri ? "/" + trim(request.uri || this.uri, '/'): ""
+      + request.suffix ? "/" + trim(request.suffix, '/') : "";
+
     this.#state = cloneDeep(fields);
     this.#flags = new Flags();
     this.fields = new Fields(fields);
     this.#builder = new RequestBuilder(this,{
-      url: `${trim(request.prefix, '/')}/${trim(request.uri || this.uri, '/')}/${trim(request.suffix, '/')}`,
+      url,
       baseURL: Config.get('origin', window.location.origin),
       headers: Config.get('headers', {})
     });
