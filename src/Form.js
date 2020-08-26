@@ -65,6 +65,24 @@ export class Form {
   }
 
   /**
+   * Set the model rules
+   *
+   * @param {Object} rules
+   */
+  setRules(rules) {
+    Object.assign(this.rules, rules);
+  }
+
+  /**
+   * Sets model rule by key
+   * @param {String} key
+   * @param {Object} rules
+   */
+  setRulesBy(key, rules) {
+    Object.assign(this.rules[key], rules);
+  }
+
+  /**
    * Set's form mode to create
    * @return void
    */
