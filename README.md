@@ -18,7 +18,7 @@ Make Rest API request's
      
       constructor() {
         super({
-            fields: Object.assign(Maker.fields)
+            fields: Maker.fields
         });    
       }
     }

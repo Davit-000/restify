@@ -1,6 +1,8 @@
+import { isNull } from "lodash"
+
 export class Form {
   /**
-   * @type {number|null}
+   * @type {null}
    */
   mode = null;
 
@@ -41,8 +43,6 @@ export class Form {
    */
   constructor(errors) {
     this.errors = errors;
-
-    this.mode = Form.MODE_CREATE;
   }
 
   /**
@@ -112,13 +112,13 @@ export class Form {
    * unSet's from mode
    */
   unsetMode() {
-    this.mode = null;
+    this.setMode(null);
   }
 
   /**
    * Sets the form mode
    *
-   * @param {number} mode
+   * @param {number|null} mode
    */
   setMode(mode) {
     this.mode = mode;
@@ -130,7 +130,7 @@ export class Form {
    * @return {boolean}
    */
   get isModeCreate() {
-    return this.mode === Form.MODE_CREATE;
+    return (!isNull(this.mode) && this.mode === Form.MODE_CREATE);
   }
 
   /**
@@ -139,7 +139,7 @@ export class Form {
    * @return {boolean}
    */
   get isModeUpdate() {
-    return this.mode === Form.MODE_UPDATE;
+    return (!isNull(this.mode) && this.mode === Form.MODE_UPDATE);
   }
 
   /**
@@ -148,6 +148,6 @@ export class Form {
    * @return {boolean}
    */
   get isModeDelete() {
-    return this.mode === Form.MODE_DELETE;
+    return (!isNull(this.mode) && this.mode === Form.MODE_DELETE);
   }
 }

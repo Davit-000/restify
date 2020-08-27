@@ -41,6 +41,8 @@ export declare class Form {
 
   setMode(mode: Mode): void;
 
+  unsetMode(): void;
+
   get isModeCreate(): boolean;
 
   get isModeUpdate(): boolean;
