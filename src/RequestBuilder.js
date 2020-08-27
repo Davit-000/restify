@@ -97,7 +97,7 @@ export class RequestBuilder {
    * @return {RequestBuilder}
    */
   only(fields) {
-    this.setData(pick(this.#request.data,fields));
+    this.setData(pick(this.#request.data, [...fields, '_method']));
 
     return this;
   }
@@ -109,7 +109,7 @@ export class RequestBuilder {
    * @return {RequestBuilder}
    */
   except(fields) {
-    this.setData(omit(this.#request.data,fields));
+    this.setData(omit(this.#request.data, fields));
 
     return this;
   }

@@ -1,5 +1,5 @@
 import pluralize from "pluralize"
-import { trim, cloneDeep } from "lodash";
+import { trim, assign, cloneDeep } from "lodash";
 import { Form } from "./Form";
 import { Flags } from "./Flags";
 import { Fields } from "./Fields";
@@ -74,8 +74,6 @@ export class Model extends Form {
     const url = trim(request.prefix, '/')
       + (request.uri ? `/${trim(request.uri, '/')}` : `/${trim(this.uri, '/')}`)
       + (request.suffix ? `/${trim(request.suffix, '/')}` : '');
-
-    console.log(url);
 
     this.#state = cloneDeep(fields);
     this.#flags = new Flags();
@@ -214,14 +212,14 @@ export class Model extends Form {
    * @return {RequestBuilder}
    */
   update() {
-    if (this.backendIsLaravel) {
-      this.#builder.setMethod('post');
-      this.#builder.setData(Object.assign({}, this.fields.all, {_method: 'patch'}));
-    } else {
-      this.#builder.setMethod('patch');
-      this.#builder.setData(this.fields.all);
-    }
+    const data = this.backendIsLaravel
+      ? assign({}, this.fields.all, {_method: 'patch'})
+      : this.fields.all;
 
+    const method = this.backendIsLaravel ? 'post' : 'patch';
+
+    this.#builder.setData(data);
+    this.#builder.setMethod(method);
     this.#builder.setParam(this.fields.get('id'));
 
     return this.#builder;

@@ -11,23 +11,27 @@ Make Rest API request's
 ## basic example 
 
 ```
-    import Restify from "vue-restify"
+    import { Restify } from "vue-restify"
     
-    class Maker extends Model {
+    class Maker extends Restify {
       static fields = {id: null, name: ''};
      
-      constructor(fields = {}) {
-        super(Object.assign(Maker.fields));
-    
-        this.models = fields.models || [];
+      constructor() {
+        super({
+            fields: Object.assign(Maker.fields)
+        });    
       }
     }
     
     const maker = new Maker();
+
     maker
-      .only(['name'])
       .create()
+      .only(['name'])    
       .prefix('admin')
       .suffix('create')
-      .send();
+      .send()
+      .then(res => console.log(res))
+      .catch(err => console.log(err))
+      .finally(() => console.log('finally'))
 ```
