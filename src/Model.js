@@ -287,7 +287,7 @@ export class Model extends Form {
   static destroyMany(ids) {
     const model = new this();
 
-    model.#builder.setMethod('get');
+    model.#builder.setMethod('delete');
     model.#builder.query({ ids });
 
     return model.#builder;
