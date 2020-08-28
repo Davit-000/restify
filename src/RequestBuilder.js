@@ -121,7 +121,7 @@ export class RequestBuilder {
    * @return {RequestBuilder}
    */
   prefix(prefix) {
-    this.#request.url = `${trim(prefix, '/')}/${this.#request.url}`;
+    this.#request.url = `${trim(prefix, '/')}/${trim(this.#request.url, '/')}`;
 
     return this;
   }
@@ -133,7 +133,7 @@ export class RequestBuilder {
    * @return {RequestBuilder}
    */
   suffix(suffix) {
-    this.#request.url = `${this.#request.url}/${trim(suffix, '/')}`;
+    this.#request.url = `/${trim(this.#request.url, '/')}/${trim(suffix, '/')}`;
 
     return this;
   }

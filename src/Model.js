@@ -189,6 +189,7 @@ export class Model extends Form {
    */
   reset() {
     this.errors = {};
+    this.file = null;
     this.#flags.reset();
     this.fields.set(this.#state);
     this.trigger('reset');
