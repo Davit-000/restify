@@ -1,5 +1,5 @@
 import pluralize from "pluralize"
-import { cloneDeep } from "lodash";
+import { trim, assign, cloneDeep } from "lodash";
 import { Form } from "./Form";
 import { Flags } from "./Flags";
 import { Fields } from "./Fields";
@@ -18,10 +18,7 @@ export class Model extends Form {
    */
   #state = {};
 
-  /**
-   * @type {string}
-   */
-  path = '';
+  #file = null;
 
   /**
    * @type {Object}
@@ -48,6 +45,13 @@ export class Model extends Form {
   formdata = false;
 
   /**
+   * File reader state
+   *
+   * @type {boolean}
+   */
+  reading = false;
+
+  /**
    * @type {string}
    */
   origin = Config.get('origin');
@@ -60,18 +64,24 @@ export class Model extends Form {
   /**
    * Model Constructor
    *
-   * @param {Object} fields
-   * @param errors
+   * @param {{fields: Object, errors?: Object, request?: Object}} options
    */
-  constructor(fields = {}, errors = {}) {
+  constructor(options) {
+    const { fields, errors = {}, request = {} } = options;
+
     super(errors);
+
+    const url = trim(request.prefix, '/')
+      + (request.uri ? `/${trim(request.uri, '/')}` : `/${trim(this.uri, '/')}`)
+      + (request.suffix ? `/${trim(request.suffix, '/')}` : '');
 
     this.#state = cloneDeep(fields);
     this.#flags = new Flags();
     this.fields = new Fields(fields);
     this.#builder = new RequestBuilder(this,{
-      url: this.uri,
-      baseURL: Config.get('origin', window.location.origin)
+      url,
+      baseURL: Config.get('origin', window.location.origin),
+      headers: Config.get('headers', {})
     });
 
     Object.keys(this.fields.all).forEach(key => {
@@ -96,13 +106,34 @@ export class Model extends Form {
     });
   }
 
+  get file() {
+    return this.#file;
+  }
+
+  set file(v) {
+    this.#file = v;
+
+    let reader = new FileReader();
+
+    if (v instanceof File || v instanceof FileList) {
+      this.trigger('reading');
+      this.reading = true;
+
+      reader.readAsDataURL(v);
+      reader.onload = e => {
+        this.trigger('readied', e.target.result);
+        this.reading = false;
+      }
+    }
+  }
+
   /**
    * Get's model rest path
    *
    * @return {string}
    */
   get uri() {
-    return this.path || pluralize.plural(this.constructor.name.toLowerCase());
+    return pluralize.plural(this.constructor.name.toLowerCase());
   }
 
   /**
@@ -158,6 +189,7 @@ export class Model extends Form {
    */
   reset() {
     this.errors = {};
+    this.file = null;
     this.#flags.reset();
     this.fields.set(this.#state);
     this.trigger('reset');
@@ -170,7 +202,7 @@ export class Model extends Form {
    */
   create() {
     this.#builder.setMethod('post');
-    this.#builder.setData(this.fields.all)
+    this.#builder.setData(this.fields.all);
 
     return this.#builder;
   }
@@ -181,14 +213,14 @@ export class Model extends Form {
    * @return {RequestBuilder}
    */
   update() {
-    if (this.backendIsLaravel) {
-      this.#builder.setMethod('post');
-      this.#builder.setData(Object.assign({}, this.fields.all, {_method: 'patch'}));
-    } else {
-      this.#builder.setMethod('patch');
-      this.#builder.setData(this.fields.all);
-    }
+    const data = this.backendIsLaravel
+      ? assign({}, this.fields.all, {_method: 'patch'})
+      : this.fields.all;
 
+    const method = this.backendIsLaravel ? 'post' : 'patch';
+
+    this.#builder.setData(data);
+    this.#builder.setMethod(method);
     this.#builder.setParam(this.fields.get('id'));
 
     return this.#builder;
@@ -256,7 +288,7 @@ export class Model extends Form {
   static destroyMany(ids) {
     const model = new this();
 
-    model.#builder.setMethod('get');
+    model.#builder.setMethod('delete');
     model.#builder.query({ ids });
 
     return model.#builder;

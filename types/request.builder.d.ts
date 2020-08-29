@@ -28,9 +28,9 @@ export declare class RequestBuilder {
 
   public suffix(suffix: string): RequestBuilder;
 
-  public headers(headers: {}): RequestBuilder;
+  public headers(headers: object): RequestBuilder;
 
-  public query(params: {}): RequestBuilder;
+  public query(params: object): RequestBuilder;
 
   public send(): AxiosResponse;
 }

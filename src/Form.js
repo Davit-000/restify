@@ -1,8 +1,15 @@
+import { isNull } from "lodash"
+
 export class Form {
   /**
-   * @type {number}
+   * @type {null}
    */
-  mode;
+  mode = null;
+
+  /**
+   * @type {boolean|string}
+   */
+  loading = false;
 
   /**
    * @type {Object}
@@ -36,8 +43,6 @@ export class Form {
    */
   constructor(errors) {
     this.errors = errors;
-
-    this.mode = Form.MODE_CREATE;
   }
 
   /**
@@ -60,11 +65,29 @@ export class Form {
   }
 
   /**
+   * Set the model rules
+   *
+   * @param {Object} rules
+   */
+  setRules(rules) {
+    Object.assign(this.rules, rules);
+  }
+
+  /**
+   * Sets model rule by key
+   * @param {String} key
+   * @param {Object} rules
+   */
+  setRulesBy(key, rules) {
+    Object.assign(this.rules[key], rules);
+  }
+
+  /**
    * Set's form mode to create
    * @return void
    */
   setModeCreate() {
-    this.mode = Form.MODE_CREATE;
+    this.setMode(Form.MODE_CREATE);
   }
 
   /**
@@ -73,7 +96,7 @@ export class Form {
    * @return void
    */
   setModeUpdate() {
-    this.mode = Form.MODE_UPDATE;
+    this.setMode(Form.MODE_UPDATE);
   }
 
   /**
@@ -82,7 +105,23 @@ export class Form {
    * @return void
    */
   setModeDelete() {
-    this.mode = Form.MODE_DELETE;
+    this.setMode(Form.MODE_DELETE);
+  }
+
+  /**
+   * unSet's from mode
+   */
+  unsetMode() {
+    this.setMode(null);
+  }
+
+  /**
+   * Sets the form mode
+   *
+   * @param {number|null} mode
+   */
+  setMode(mode) {
+    this.mode = mode;
   }
 
   /**
@@ -91,7 +130,7 @@ export class Form {
    * @return {boolean}
    */
   get isModeCreate() {
-    return this.mode === Form.MODE_CREATE;
+    return (!isNull(this.mode) && this.mode === Form.MODE_CREATE);
   }
 
   /**
@@ -100,7 +139,7 @@ export class Form {
    * @return {boolean}
    */
   get isModeUpdate() {
-    return this.mode === Form.MODE_UPDATE;
+    return (!isNull(this.mode) && this.mode === Form.MODE_UPDATE);
   }
 
   /**
@@ -109,6 +148,6 @@ export class Form {
    * @return {boolean}
    */
   get isModeDelete() {
-    return this.mode === Form.MODE_DELETE;
+    return (!isNull(this.mode) && this.mode === Form.MODE_DELETE);
   }
 }

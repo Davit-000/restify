@@ -1,4 +1,4 @@
-import { omit, pick, cloneDeep } from "lodash";
+import { trim, omit, pick, cloneDeep } from "lodash";
 import { serialize } from "object-to-formdata";
 import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
 
@@ -29,8 +29,11 @@ export class RequestBuilder {
     return this.#model.origin;
   }
 
+  /**
+   * Transforms request data object to formdata object
+   */
   #transformToFormdata() {
-    this.#request.data = serialize(this.#request.data, {
+    this.#request.data = serialize(Object.assign(this.#request.data, {file: this.#model.file}), {
       /**
        * include array indices in FormData keys
        * defaults to false
@@ -94,7 +97,7 @@ export class RequestBuilder {
    * @return {RequestBuilder}
    */
   only(fields) {
-    this.setData(pick(this.#request.data,fields));
+    this.setData(pick(this.#request.data, [...fields, '_method']));
 
     return this;
   }
@@ -106,7 +109,7 @@ export class RequestBuilder {
    * @return {RequestBuilder}
    */
   except(fields) {
-    this.setData(omit(this.#request.data,fields));
+    this.setData(omit(this.#request.data, fields));
 
     return this;
   }
@@ -118,7 +121,7 @@ export class RequestBuilder {
    * @return {RequestBuilder}
    */
   prefix(prefix) {
-    this.#request.url = `${prefix}/${this.#request.url}`;
+    this.#request.url = `${trim(prefix, '/')}/${trim(this.#request.url, '/')}`;
 
     return this;
   }
@@ -130,7 +133,8 @@ export class RequestBuilder {
    * @return {RequestBuilder}
    */
   suffix(suffix) {
-    this.#request.url = `${this.#request.url}/${suffix}`;
+    this.#request.url = `/${trim(this.#request.url, '/')}/${trim(suffix, '/')}`;
+
     return this;
   }
 
@@ -142,6 +146,7 @@ export class RequestBuilder {
    */
   headers(headers) {
     Object.assign(this.#request.headers, headers);
+
     return this;
   }
 
@@ -163,12 +168,14 @@ export class RequestBuilder {
    */
   send() {
     this.#model.trigger('sending');
+    this.#model.loading = 'primary';
 
     if (this.#model.formdata) {
       this.#transformToFormdata();
     }
 
-    return axios.request(this.#request)
+    return axios
+      .request(this.#request)
       .then(res => {
         this.#model.trigger('sent');
 
@@ -177,7 +184,11 @@ export class RequestBuilder {
       .catch(err => {
         this.#model.trigger('failed');
 
-        return err
-      });
+        if (err.response && err.response.data.hasOwnProperty('errors'))
+          this.#model.setErrors(err.response.data.errors);
+
+        return err;
+      })
+      .finally(() => this.#model.loading = false);
   }
 }

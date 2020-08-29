@@ -22,6 +22,18 @@ export interface ModelFlags {
   }
 }
 
+export interface ModelRequestOptions {
+  uri?: string
+  prefix?: string,
+  suffix?: string,
+}
+
+export interface ModelOptions {
+  fields: object,
+  errors?: object
+  request?: ModelRequestOptions
+}
+
 export declare class Model extends Form {
   public path: string = '';
 
@@ -31,6 +43,8 @@ export declare class Model extends Form {
 
   public formdata: boolean = false;
 
+  public reading: boolean = false;
+
   private state: object = {};
 
   private builder: RequestBuilder;
@@ -39,11 +53,15 @@ export declare class Model extends Form {
 
   public static $config: ModelConfig;
 
-  constructor(fields: {} = {}, errors: {} = {});
+  constructor(options: ModelOptions);
 
   get uri(): string;
 
   get backendIsLaravel(): boolean;
+
+  get file(): File|null;
+
+  set file(): void;
 
   set(fields: {}): void
 
@@ -58,6 +76,8 @@ export declare class Model extends Form {
   update(): RequestBuilder;
 
   destroy(): RequestBuilder;
+
+  static all(): RequestBuilder;
 
   static find(id: number|string = null): RequestBuilder;
 

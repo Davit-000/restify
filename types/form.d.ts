@@ -1,19 +1,27 @@
-interface FormErrors {
+export interface FormErrors {
   [key: string]: string[]
 }
 
-export declare class Form {
-  mode: string = Form.MODE_CREATE;
+export interface FormRules {
+  [key: string]: object
+}
 
-  rules: {} = {};
+export type Mode = Form.MODE_CREATE | Form.MODE_UPDATE | Form.MODE_DELETE;
+
+export declare class Form {
+  mode?: number = null;
+
+  loading: boolean|string = false;
+
+  rules: object = {};
 
   errors: FormErrors = {};
 
-  public static MODE_CREATE = 1;
+  public static MODE_CREATE: number = 1;
 
-  public static MODE_UPDATE = 2;
+  public static MODE_UPDATE: number = 2;
 
-  public static MODE_DELETE = 0;
+  public static MODE_DELETE: number = 0;
 
   constructor(errors: {}): void;
 
@@ -21,11 +29,19 @@ export declare class Form {
 
   error(field: string): string;
 
+  setRules(rules: FormRules): void;
+
+  setRulesBy(key: string, rules: object): void;
+
   setModeCreate(): void;
 
   setModeUpdate(): void;
 
   setModeDelete(): void;
+
+  setMode(mode: Mode): void;
+
+  unsetMode(): void;
 
   get isModeCreate(): boolean;
 
