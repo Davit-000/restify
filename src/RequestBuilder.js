@@ -182,13 +182,12 @@ export class RequestBuilder {
         return res;
       })
       .catch(err => {
-        console.log(err);
         this.#model.trigger('failed');
 
         if (err.response && err.response.data.hasOwnProperty('errors'))
           this.#model.setErrors(err.response.data.errors);
 
-        return err;
+        throw err;
       })
       .finally(() => this.#model.loading = false);
   }
