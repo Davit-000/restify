@@ -128,9 +128,7 @@ export class RequestBuilder {
    * @return {RequestBuilder}
    */
   prefix(prefix) {
-    this.#request.url =
-      (this.#defaults.prefix ? `${trim(this.#defaults.prefix, '/')}/` : '') +
-      `${trim(prefix, '/')}/${trim(this.#request.url, '/')}`;
+    this.#request.url = `${trim(prefix, '/')}/${trim(this.#request.url, '/')}`;
 
     return this;
   }
@@ -142,9 +140,7 @@ export class RequestBuilder {
    * @return {RequestBuilder}
    */
   suffix(suffix) {
-    this.#request.url =
-      `/${trim(this.#request.url, '/')}/${trim(suffix, '/')}` +
-      (this.#defaults.suffix ? `/${trim(this.#defaults.suffix, '/')}` : '');
+    this.#request.url = `${trim(this.#request.url, '/')}/${trim(suffix, '/')}`
 
     return this;
   }
@@ -184,6 +180,11 @@ export class RequestBuilder {
     if (this.#model.formdata) {
       this.#transformToFormdata();
     }
+
+    this.#request.url =
+      (this.#defaults.prefix ? `${trim(this.#defaults.prefix, '/')}/` : '') +
+      trim(this.#request.url, '/') +
+      (this.#defaults.suffix ? `/${trim(this.#defaults.suffix, '/')}` : '');
 
     return axios
       .request(this.#request)
