@@ -5,6 +5,11 @@ import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
 export class RequestBuilder {
   #model;
   #methods = ['get', 'head', 'post', 'patch', 'put', 'delete'];
+  #defaults = {
+    uri: '',
+    prefix: '',
+    suffix: ''
+  };
   #request = {
     url: '',
     method: '',
@@ -17,11 +22,13 @@ export class RequestBuilder {
   /**
    * Request builder constructor
    *
-   * @param model
+   * @param {Model} model
    * @param {AxiosRequestConfig} request
+   * @param {Object} defaults
    */
-  constructor(model, request) {
+  constructor({model, request, defaults}) {
     this.#model = model;
+    this.#defaults = defaults;
     this.#request = Object.assign({}, this.#request, request);
   }
 
@@ -133,7 +140,7 @@ export class RequestBuilder {
    * @return {RequestBuilder}
    */
   suffix(suffix) {
-    this.#request.url = `/${trim(this.#request.url, '/')}/${trim(suffix, '/')}`;
+    this.#request.url = `${trim(this.#request.url, '/')}/${trim(suffix, '/')}`
 
     return this;
   }
@@ -173,6 +180,11 @@ export class RequestBuilder {
     if (this.#model.formdata) {
       this.#transformToFormdata();
     }
+
+    this.#request.url =
+      (this.#defaults.prefix ? `${trim(this.#defaults.prefix, '/')}/` : '') +
+      trim(this.#request.url, '/') +
+      (this.#defaults.suffix ? `/${trim(this.#defaults.suffix, '/')}` : '');
 
     return axios
       .request(this.#request)

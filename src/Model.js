@@ -71,17 +71,19 @@ export class Model extends Form {
 
     super(errors);
 
-    const url = trim(request.prefix, '/')
-      + (request.uri ? `/${trim(request.uri, '/')}` : `/${trim(this.uri, '/')}`)
-      + (request.suffix ? `/${trim(request.suffix, '/')}` : '');
+    const url = request.uri ? `/${trim(request.uri, '/')}` : `/${trim(this.uri, '/')}`;
 
     this.#state = cloneDeep(fields);
     this.#flags = new Flags();
     this.fields = new Fields(fields);
-    this.#builder = new RequestBuilder(this,{
-      url,
-      baseURL: Config.get('origin', window.location.origin),
-      headers: Config.get('headers', {})
+    this.#builder = new RequestBuilder({
+      model: this,
+      defaults: request,
+      request: {
+        url,
+        baseURL: Config.get('origin', window.location.origin),
+        headers: Config.get('headers', {})
+      }
     });
 
     Object.keys(this.fields.all).forEach(key => {
