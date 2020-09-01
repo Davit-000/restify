@@ -190,11 +190,19 @@ export class Model extends Form {
    * Reset fields
    */
   reset() {
-    this.errors = {};
     this.file = null;
+    this.errors = {};
     this.#flags.reset();
     this.fields.set(this.#state);
     this.trigger('reset');
+  }
+
+  resetFields(...args) {
+    if (Array.isArray(args[0])) {
+      this.resetFields(...args[0]);
+    } else {
+      args.forEach(field => this.fields.set({[field]: this.#state[field]}));
+    }
   }
 
   /**

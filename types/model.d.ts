@@ -71,6 +71,8 @@ export declare class Model extends Form {
 
   reset(): void;
 
+  resetFields(fields: string|string[]): void;
+
   create(): RequestBuilder;
 
   update(): RequestBuilder;
