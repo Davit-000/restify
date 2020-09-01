@@ -1,10 +1,10 @@
 import Model from "./index";
-import { AxiosRequestConfig, AxiosResponse } from "axios";
+import { AxiosRequestConfig, AxiosResponse, Method } from "axios";
 
 export declare class RequestBuilder {
   private model: Model;
 
-  private methods: string[];
+  private methods: Method[];
 
   private request: AxiosRequestConfig;
 

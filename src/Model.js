@@ -262,6 +262,20 @@ export class Model extends Form {
   }
 
   /**
+   * Makes dry request
+   *
+   * @param {String} method
+   * @return {RequestBuilder}
+   */
+  static req(method) {
+    const model = new this();
+
+    model.#builder.setMethod(method);
+
+    return model.#builder;
+  }
+
+  /**
    * Set's request method
    *
    * @returns {RequestBuilder}
