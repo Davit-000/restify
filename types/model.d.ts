@@ -1,6 +1,7 @@
 import { Form } from "./form";
 import { Flags } from "./flags";
 import { RequestBuilder } from "./request.builder";
+import {Fields} from "./fields";
 
 export interface ModelConfig {
   origin: string,
@@ -39,7 +40,7 @@ export declare class Model extends Form {
 
   public flags: Flags;
 
-  public fields: object = {};
+  public fields: Fields = {};
 
   public formdata: boolean = false;
 
