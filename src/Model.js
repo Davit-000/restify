@@ -267,7 +267,7 @@ export class Model extends Form {
    * @param {String} method
    * @return {RequestBuilder}
    */
-  static request(method) {
+  static req(method) {
     const model = new this();
 
     model.#builder.setMethod(method);

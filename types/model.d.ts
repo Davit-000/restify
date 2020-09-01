@@ -81,7 +81,7 @@ export declare class Model extends Form {
 
   destroy(): RequestBuilder;
 
-  static request(method: Method): RequestBuilder;
+  static req(method: Method): RequestBuilder;
 
   static all(): RequestBuilder;
 
