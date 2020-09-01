@@ -1,7 +1,8 @@
 import { Form } from "./form";
 import { Flags } from "./flags";
+import { Fields } from "./fields";
 import { RequestBuilder } from "./request.builder";
-import {Fields} from "./fields";
+import { Method } from "axios";
 
 export interface ModelConfig {
   origin: string,
@@ -79,6 +80,8 @@ export declare class Model extends Form {
   update(): RequestBuilder;
 
   destroy(): RequestBuilder;
+
+  static request(method: Method): RequestBuilder;
 
   static all(): RequestBuilder;
 
