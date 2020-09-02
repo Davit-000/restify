@@ -14,6 +14,8 @@ export declare class RequestBuilder {
 
   private transformToFormdata(): void;
 
+  private buildUrl(): void;
+
   public setMethod(method: string): void;
 
   public setParam(id: number| string): void;

@@ -1,4 +1,4 @@
-import { trim, omit, pick, cloneDeep } from "lodash";
+import { trim, omit, pick, cloneDeep, startsWith, endsWith } from "lodash";
 import { serialize } from "object-to-formdata";
 import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
 
@@ -65,6 +65,20 @@ export class RequestBuilder {
        */
       allowEmptyArrays: true,
     });
+  }
+
+  #buildUrl() {
+    let { url } = this.#request.url;
+    let { prefix, suffix } = this.#defaults;
+
+    url = trim(url, '/');
+    prefix = trim(prefix, '/');
+    suffix = trim(suffix, '/');
+
+    this.#request.url =
+      (prefix && !startsWith(url, prefix, 0) ? `${prefix}/` : '') +
+      url +
+      (suffix && !endsWith(url, suffix, url.length) ? `/${suffix}` : '');
   }
 
   /**
@@ -181,10 +195,7 @@ export class RequestBuilder {
       this.#transformToFormdata();
     }
 
-    this.#request.url =
-      (this.#defaults.prefix ? `${trim(this.#defaults.prefix, '/')}/` : '') +
-      trim(this.#request.url, '/') +
-      (this.#defaults.suffix ? `/${trim(this.#defaults.suffix, '/')}` : '');
+    this.#buildUrl();
 
     return axios
       .request(this.#request)
