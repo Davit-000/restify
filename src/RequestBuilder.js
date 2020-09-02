@@ -68,7 +68,7 @@ export class RequestBuilder {
   }
 
   #buildUrl() {
-    let { url } = this.#request.url;
+    let { url } = this.#request;
     let { prefix, suffix } = this.#defaults;
 
     url = trim(url, '/');
