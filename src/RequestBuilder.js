@@ -10,6 +10,10 @@ export class RequestBuilder {
     prefix: '',
     suffix: ''
   };
+  /**
+   *
+   * @type {AxiosRequestConfig}
+   */
   #request = {
     url: '',
     method: '',
@@ -99,7 +103,9 @@ export class RequestBuilder {
    * @param {number|string} id
    */
   setParam(id) {
-    this.#request.url = `${this.#request.url}/${id}`
+    this.#request.url = new RegExp(id).test(this.#request.url)
+      ? this.#request.url
+      :`${this.#request.url}/${id}`;
   }
 
   /**
