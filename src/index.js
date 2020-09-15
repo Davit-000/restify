@@ -22,14 +22,18 @@ const { Config } = require("./Config");
 // }
 //
 // const maker = new Maker();
+//
 // maker.set({id: 1, name: 'Maker 1'});
 //
 // maker
 //   .update()
 //   .only(['name'])
 //   .send()
-//   .finally(() => maker.reset());
-
+//   .finally(() => {
+//     maker.reset();
+//     maker.set({id: 1, name: 'Maker 1'});
+//     maker.update().only(['name']).send()
+//   });
 
 module.exports = {
   Restify: Model,

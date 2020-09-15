@@ -88,7 +88,9 @@ export class RequestBuilder {
    * Reset built request url
    */
   #reBuildUrl() {
-    this.#request.url = this.#configs.uri;
+    this.#request.url = this.#configs.uri
+      ? this.#configs.uri
+      : this.#model.uri
   }
 
   /**
@@ -230,7 +232,8 @@ export class RequestBuilder {
       .finally(() => {
         this.#model.loading = false;
 
-        this.#reBuildUrl();
+        // TODO: uncomment if not need to use setParams for request url building
+        // this.#reBuildUrl();
       });
   }
 }
