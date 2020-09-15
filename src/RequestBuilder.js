@@ -5,7 +5,7 @@ import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
 export class RequestBuilder {
   #model;
   #methods = ['get', 'head', 'post', 'patch', 'put', 'delete'];
-  #defaults = {
+  #configs = {
     uri: '',
     prefix: '',
     suffix: ''
@@ -28,16 +28,12 @@ export class RequestBuilder {
    *
    * @param {Model} model
    * @param {AxiosRequestConfig} request
-   * @param {Object} defaults
+   * @param {Object} configs
    */
-  constructor({model, request, defaults}) {
+  constructor({model, request, configs}) {
     this.#model = model;
-    this.#defaults = defaults;
+    this.#configs = configs;
     this.#request = Object.assign({}, this.#request, request);
-  }
-
-  get origin() {
-    return this.#model.origin;
   }
 
   /**
@@ -71,9 +67,12 @@ export class RequestBuilder {
     });
   }
 
+  /**
+   * Builds request full url
+   */
   #buildUrl() {
     let { url } = this.#request;
-    let { prefix, suffix } = this.#defaults;
+    let { prefix, suffix } = this.#configs;
 
     url = trim(url, '/');
     prefix = trim(prefix, '/');
@@ -83,6 +82,13 @@ export class RequestBuilder {
       (prefix && !startsWith(url, prefix, 0) ? `${prefix}/` : '') +
       url +
       (suffix && !endsWith(url, suffix, url.length) ? `/${suffix}` : '');
+  }
+
+  /**
+   * Reset built request url
+   */
+  #reBuildUrl() {
+    this.#request.url = this.#configs.uri;
   }
 
   /**
@@ -103,9 +109,12 @@ export class RequestBuilder {
    * @param {number|string} id
    */
   setParam(id) {
-    this.#request.url = new RegExp(id).test(this.#request.url)
-      ? this.#request.url
-      :`${this.#request.url}/${id}`;
+    const { url } = this.#request;
+    const reg = new RegExp(id, 'g');
+
+    this.#request.url = reg.test(url)
+      ? url.replace(reg, id)
+      : `${url}/${id}`;
   }
 
   /**
@@ -218,6 +227,10 @@ export class RequestBuilder {
 
         throw err;
       })
-      .finally(() => this.#model.loading = false);
+      .finally(() => {
+        this.#model.loading = false;
+
+        this.#reBuildUrl();
+      });
   }
 }

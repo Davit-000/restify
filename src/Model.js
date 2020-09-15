@@ -78,7 +78,7 @@ export class Model extends Form {
     this.fields = new Fields(fields);
     this.#builder = new RequestBuilder({
       model: this,
-      defaults: request,
+      configs: request,
       request: {
         url,
         baseURL: Config.get('origin', window.location.origin),

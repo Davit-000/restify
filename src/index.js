@@ -22,11 +22,13 @@ const { Config } = require("./Config");
 // }
 //
 // const maker = new Maker();
+// maker.set({id: 1, name: 'Maker 1'});
 //
 // maker
-//   .create()
+//   .update()
 //   .only(['name'])
-//   .send();
+//   .send()
+//   .finally(() => maker.reset());
 
 
 module.exports = {

@@ -16,6 +16,8 @@ export declare class RequestBuilder {
 
   private buildUrl(): void;
 
+  private reBuildUrl(): void;
+
   public setMethod(method: string): void;
 
   public setParam(id: number| string): void;

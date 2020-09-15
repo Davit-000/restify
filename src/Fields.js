@@ -7,7 +7,7 @@ export class Fields {
    * @param {Object} fields
    */
   constructor(fields) {
-    this.fields = Object.assign({}, this.fields, fields);
+    this.data = Object.assign({}, this.data, fields);
   }
 
   /**
@@ -16,7 +16,7 @@ export class Fields {
    * @return {Object}
    */
   get all() {
-    return this.fields;
+    return this.data;
   }
 
   /**
@@ -46,7 +46,7 @@ export class Fields {
    * @return {*}
    */
   get(field) {
-    return this.fields[field];
+    return this.data[field];
   }
 
   /**
@@ -54,6 +54,6 @@ export class Fields {
    * @param {Object} fields
    */
   set(fields) {
-    Object.assign(this.fields, fields);
+    Object.assign(this.data, fields);
   }
 }
