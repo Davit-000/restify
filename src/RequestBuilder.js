@@ -215,12 +215,12 @@ export class RequestBuilder {
     return axios
       .request(this.#request)
       .then(res => {
-        this.#model.trigger('sent');
+        this.#model.trigger('sent', this.#request);
 
         return res;
       })
       .catch(err => {
-        this.#model.trigger('failed');
+        this.#model.trigger('failed', this.#request);
 
         if (err.response && err.response.data.hasOwnProperty('errors'))
           this.#model.setErrors(err.response.data.errors);
